@@ -1,7 +1,8 @@
 from sbmlutils.io import write_sbml, read_sbml
 import sbmlutils.factory as sbml
 from biomass import Text2Model
-import tempfile, os
+import tempfile
+import os
 from pathlib import Path
 import re
 from typing import NamedTuple
@@ -116,7 +117,10 @@ class ExportModel(object):
             equation = equation + " " + modifiers
         rate = kinetics.rate.replace("**", "^")
         reaction = sbml.Reaction(
-            sid="R" + str(num), name="R" + str(num), equation=equation, formula=(rate, None)
+            sid="R" + str(num),
+            name="R" + str(num),
+            equation=equation,
+            formula=(rate, None),
         )
         return reaction
 
@@ -133,10 +137,15 @@ class ExportModel(object):
                 volume=sbml.Units.litre,
             ),
             compartments=[sbml.Compartment(sid="C", value=1.0)],
-            species=[self._get_species(species) for species in self.model.species],
-            parameters=[self._get_param(param) for param in self.model.parameters],
+            species=[
+                self._get_species(species) for species in self.model.species
+            ],
+            parameters=[
+                self._get_param(param) for param in self.model.parameters
+            ],
             reactions=[
-                self._get_reaction(i, kinetics) for i, kinetics in enumerate(self.model.kinetics)
+                self._get_reaction(i, kinetics)
+                for i, kinetics in enumerate(self.model.kinetics)
             ],
         )
 
